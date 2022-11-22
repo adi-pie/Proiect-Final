@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produse</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-md">
+        <div class="btn-group d-flex justify-content-between">
+            <a href="users.html" class="btn btn-primary active" aria-current="page">Utilizatori</a>
+            <a href="comenzi.html" class="btn btn-primary">Comenzi</a>
+            <a href="productlist.html" class="btn btn-primary">Produse</a>
+            <a href="useredit.html" class="btn btn-primary">Logout</a>
+          </div>
+        <div class="container-md d-flex justify-content-between">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="table-dark">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Titlu</th>
+                        <th scope="col">Autor</th>
+                        <th scope="col">Pret</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${not#lists.isEmpty(productsSearchResult)}">
+                        <td colspan="4"> No Products Available</td>
+                    </tr>
+
+                    <tr th:each="product : ${productsSearchResult}">
+                        <td><span th:text="${product.id}">ID</span></td>
+                        <td><span th:text="${product.Title}">Titlu</span></td>
+                        <td><span th:text="${product.author}">Autor</span></td>
+                        <td><span th:text="${product.pret}">Pret</span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+</body>
+</html>
