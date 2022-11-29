@@ -14,11 +14,11 @@
 <body>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
     <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/}">Acasa</a>
+        <a class="navbar-brand" th:href="@{/index}">Acasa</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div  class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" th:href="@{/users}">Utilizatori</a>
@@ -33,24 +33,25 @@
                     <a class="nav-link active" aria-current="page" th:href="@{/logout}">Logout</a>
                 </li>
             </ul>
-           </div>
+
+        </div>
     </div>
 </nav>
-   <div class="container-flex">
-            <form id="createform" class="row" method="post" th:action="@{/createproduct/new}" th:object="${newProduct}" multiple = "true">
+   <div class="container-flex p-1">
+            <form class="row" action="#" id="edit-form" th:action="@{/product/{id}/edit(id=${products.product_id})}" th:object="${products}" th:method="POST">
               <div class="row p-md-2">
                 <div class="col-md-5">
                   <div class="input-group">
                   <label for="inputTitle" class="input-group-text">Titlu produs</label>
-                  <input type="text" th:field="${newProduct.title}" class="form-control" id="inputTitle" placeholder="Titlu">
+                  <input type="text" class="form-control" id="inputTitle" th:value="${products.title}"/>
                 </div>
                 </div>
                   <div class="col-md-6 offset-md-1">
                       <div class="input-group">
                           <label for="inputAuthorLastName" class="input-group-text">Nume Autor</label>
-                          <input type="text" class="form-control" id="inputAuthorLastName" th:field="${newProduct.author.lastname}">
+                          <input type="text" class="form-control" id="inputAuthorLastName" th:value="${products.author.lastname}">
                           <label for="inputAuthorFirstName" class="input-group-text">Prenume Autor</label>
-                          <input type="text" class="form-control" id="inputAuthorFirstName" th:field="${newProduct.author.firstname}">
+                          <input type="text" class="form-control" id="inputAuthorFirstName" th:value="${products.author.firstname}">
                       </div>
                   </div>
               </div>
@@ -60,8 +61,8 @@
                 <div class="col-md-5">
                   <form>
                     <div class="form-group">
-                      <img src="./images/placeholder-1024x1024.png" class="img-fluid img-thumbnail" alt="Placeholder" height="200" width="200">
-                       <input type="file"  accept="image/png, image/jpeg" th:field="${newProduct.thumbnail}" class="form-control-file" id="productThumbnail">
+                      <img th:src="'data:image/png;base64,'+ ${imgUtil.getImageData(products.thumbnail)}" height="200" width="200">
+                       <input type="file" accept="image/jpeg, image/png" class="form-control-file" id="productThumbnail">
                     </div>
                   </form>
                     
@@ -70,33 +71,42 @@
                 <div class="col-md-6 offset-md-1">
                   <div class="form-group">
                     <label for="inputDescription" class="input-group-label">Descriere Produs</label>
-                    <textarea class="form-control" th:field="*{description}" id="inputDescription" rows="5"></textarea>
+                    <input class="form-control input-lg" id="inputDescription" th:value="${products.description}" >
                     </div>
                 </div>
               </div>
               <div class="row p-md-2">
-                <div class="col-md-3">
-                 <div class="input-group">
-                    <span class="input-group-text">Gen</span>
-                     <select id="Gen-Selection" aria-label="Gen">
-                         <option th:each="bookType : ${T(ro.sda.finalproject.enums.BookType).values()}"
-                                 th:value="*{bookType}" th:text="${bookType.displayValue}"></option>
-                     </select>
-                    <button class="btn btn-primary" type="submit">Adaugare</button>
+                  <div class="col-md-3">
+                      <div class="input-group">
+                          <span class="input-group-text">Gen</span>
+                          <select name="Gen" aria-label="Gen">
+                              <option th:each="bookType : ${T(ro.sda.finalproject.enums.BookType).values()}"
+                                      th:value="${products.bookType}" th:text="${bookType.displayValue}"></option>
+                          </select>
+                      </div>
                   </div>
-                </div>
                 <div class="col-md-3">
                   <div class="input-group">
                   <label for="inputPrice" class="input-group-text">Pret</label>
-                  <input type="number" th:text="*{price}" class="form-control" id="inputPrice">
+                  <input type="number" class="form-control" th:value="${products.price}" id="inputPrice">
                 </div>
                 </div>
-                  <div class="col-md-3">
-                  <input type="submit" form="createform" class="btn btn-primary" value="Salvare"/>
+
+
+                  <div class="col-md-2">
+                      <div class="input-group">
+                          <label for="productID" class="input-group-text">Product ID</label>
+                          <input type="text" class="form-control" id="productID" th:value="${products.product_id}" disabled>
+                      </div>
+                </div>
+                  <div class="col-md-2 ">
+                      <button type="submit" class="btn btn-primary" id="saveChanges" form="edit-form" >Salvare</button>
                   </div>
+
               </div>
 
-            </form>
-   </div>
+              </form>
+
+</div>
 </body>
 </html>
